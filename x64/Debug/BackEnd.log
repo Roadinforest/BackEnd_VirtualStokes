@@ -1,4 +1,2 @@
 ﻿  test.cpp
-C:\Users\Roadinforest\Desktop\2024SummerProject\BackEnd\test.cpp(11,12): warning C4101: “row”: 未引用的局部变量
-C:\Users\Roadinforest\Desktop\2024SummerProject\BackEnd\test.cpp(10,13): warning C4101: “res”: 未引用的局部变量
   BackEnd.vcxproj -> C:\Users\Roadinforest\Desktop\2024SummerProject\BackEnd\x64\Debug\BackEnd.exe
