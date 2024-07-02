@@ -10,7 +10,7 @@ class backEndWithDataBase
 private:
 	MYSQL mysql;
 
-	const char* host = "localhost"; // MySQL server host
+	const char* host = "10.128.11.30"; // MySQL server host
 	const char* user = "visitor"; // MySQL username
 	const char* password = "VirtualStokes"; // MySQL password
 	const char* database = "test"; // MySQL database name
