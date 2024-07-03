@@ -22,6 +22,11 @@ SOURCES += \
    chartspline.cpp \
     main.cpp \
     mainwindow.cpp \
+   portfolio.cpp \
+   record.cpp \
+   stock.cpp \
+   user.cpp \
+   virtualcurrency.cpp
 
 
 HEADERS += \
@@ -29,6 +34,11 @@ HEADERS += \
    backendwithdatabase2.h \
    chartspline.h \
     mainwindow.h \
+   portfolio.h \
+   record.h \
+   stock.h \
+   user.h \
+   virtualcurrency.h
 
 
 FORMS += \

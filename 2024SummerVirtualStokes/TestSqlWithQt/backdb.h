@@ -5,6 +5,10 @@
 #include <iostream>
 #include <QString>
 
+#include <user.h>
+#include <record.h>
+#include <portfolio.h>
+#include <QRandomGenerator>
 
 class BackDB
 {
@@ -35,13 +39,27 @@ public:
     //Won't show the result of the query
     MYSQL_RES* query(const char* query);
 
+    MYSQL_RES* query(QString query);
+
     //Show the query result of the query
     //And return the result as QStirng
     QString showQuery(const char* query);
 
+    //Add a user into the users table
+    void addUser(User _user);
+    void testUserAdd();
+
+    //Add a Porfolios into the portfolios table
+    void addPortfolios(int user_id,int company_id,int volume);
+    void testPortfolios();
+
+    //Add a record into the trade record table;
+    void addRecord(int _user_id, Record _record);
+    void testRecord();
+
     //Get the information about the field
     void tableDesc(const char* tableName);
 
-    //Cloase the Mysql
+    //Close the Mysql
     void close();
 };

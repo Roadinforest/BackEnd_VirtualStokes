@@ -1,6 +1,11 @@
 #include "backdb.h"
 #include "QString"
 #include <string>
+#include <QDebug>
+#include "user.h"
+#include "record.h"
+#include "portfolio.h"
+#include "stock.h"
 
 
 // The implement of backEndWithDataBase Class
@@ -78,6 +83,15 @@ MYSQL_RES* BackDB::query(const char* query)
 }
 
 
+MYSQL_RES* BackDB::query(QString qStr)
+{
+    QByteArray byteArray = qStr.toUtf8();
+    const char* query = byteArray.data();
+    this->query(query);
+}
+
+
+
 //Show the origin information of the table,
 //return -1 if fails,else return the number of the rows
 QString BackDB::showQuery(const char* query)
@@ -115,6 +129,8 @@ QString BackDB::showQuery(const char* query)
         return StringReturn;
     }
 }
+
+
 
 
 
@@ -180,7 +196,87 @@ void BackDB::tableDesc(const char* tableName) {
     mysql_free_result(queryResult);
 }
 
+//---------------------
 
+void BackDB::addUser(User _user) {
+    int id = _user.GetId();
+    QString name = _user.GetName();
+    QString password = _user.GetPassword();
+    int ranking = _user.GetRanking();
+//    int value = _user.GetVIr().GetValue();
+    int value=-1;
+
+    QString queryStr = QString("INSERT INTO users (id, name, password, balance, ranking) "
+                               "VALUES (%1, '%2', '%3', %4, %5)")
+                           .arg(id)
+                           .arg(name)
+                           .arg(password)
+                           .arg(value)
+                           .arg(ranking);
+
+    this->query(queryStr);
+}
+
+void BackDB::testUserAdd() {
+    qDebug()<<"Test the UserAdd"<<Qt::endl;
+    User _user;
+    this->addUser(_user);
+}
+
+//------------------------
+
+void BackDB::addPortfolios(int user_id, int company_id, int volume) {
+    QString queryStr = QString("INSERT INTO portfolios (user_id, company_id, volumn) "
+                               "VALUES (%1, %2, %3)")
+                           .arg(user_id)
+                           .arg(company_id)
+                           .arg(volume);
+
+     this->query(queryStr);
+}
+
+void BackDB::testPortfolios() {
+     qDebug()<<"Test the Portfolios"<<Qt::endl;
+
+     QRandomGenerator *generator = QRandomGenerator::global();
+
+     // Generate a random integer between 0 and 100
+    int user_id = generator->bounded(101);
+    int company_id = 1;
+    int volume = 1;
+    this->addPortfolios(user_id, company_id, volume);
+}
+
+//-----------------------
+
+void BackDB::addRecord(int _user_id, Record _record) {
+    QString _date = _record.GetDate();
+    Stock _stock = _record.GetStock();
+    int _company_id = _stock.GetCompanyId();
+    long _volume = _record.GetVolume();
+    int _type = _record.GetTradeType();
+    long _totalPrice = _record.GetTotalPrice();
+
+    QString queryStr = QString("INSERT INTO trade_record (user_id, company_id, volumn, date, trade_type, total_price) "
+                               "VALUES (%1, %2, %3, '%4', %5, %6)")
+                           .arg(_user_id)
+                           .arg(_company_id)
+                           .arg(_volume)
+                           .arg(_date)
+                           .arg(_type)
+                           .arg(_totalPrice);
+
+     this->query(queryStr);
+}
+
+void BackDB::testRecord() {
+    Record _record;
+    int user_id = 1; // Provide a valid user_id
+    this->addRecord(user_id, _record);
+}
+
+
+//------------------------
 //Cloase the Mysql
 void BackDB::close()
 {
